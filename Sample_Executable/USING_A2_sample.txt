@@ -1,0 +1,4 @@
+# ==========================================================================================================
+#  ⚠️ The file TESTCASES.txt must be present in the directory where A2_sample is located.
+#  💡 The file TESTCASES.txt should contain the test cases you wish to run to generate the EXPECTED OUTPUT.
+# ==========================================================================================================

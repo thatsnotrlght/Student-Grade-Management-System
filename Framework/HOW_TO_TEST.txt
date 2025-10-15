@@ -1,0 +1,17 @@
+⚠️ Important Instructions:
+=========================== 
+
+1) Rename `A2_skeleton.c` to `functions.c` for testing and submission.
+
+2) These files must be in the same directory to successfully implement and test your application with the provided autograders.
+    - functions.c (renamed from A2_skeleton.c)
+    - driver.c
+    - grade_system.h
+    - Makefile
+    - EXPECTED_OUTPUT.txt
+    - TESTCASES.txt
+    - autograder_grade_system.sh
+    - batchgrader_grade_system.sh
+
+3) ☑️ Refer to the document "A2_Testing_Guide.pdf" for clear instructions.
+

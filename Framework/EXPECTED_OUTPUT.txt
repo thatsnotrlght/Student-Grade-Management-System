@@ -1,0 +1,6 @@
+# ==============================================================================
+# 💡 Copy and paste the expected output of each test case (Simple, Moderate,
+# Rigorous) in this file, corresponding to the input test cases you are testing
+# with in the TESTCASE.txt file.
+# ==============================================================================
+
