@@ -13,6 +13,16 @@
 
 #include "grade_system.h"
 
+#define MIN_GRADE 0.0
+#define MAX_GRADE 100.0
+#define MAX_STUDENTS 50  
+extern int studentCount;
+extern int studentIDs[MAX_STUDENTS];
+extern float quizGrades[MAX_STUDENTS];          
+extern float assignmentGrades[MAX_STUDENTS];    
+extern float midtermGrades[MAX_STUDENTS];         
+extern float finalGrades[MAX_STUDENTS];
+
 /* ============================================================================
  *TODO 1: Validates if a grade is within acceptable range (5 points)
  * ============================================================================
@@ -24,8 +34,7 @@
 int isValidGrade(float grade) {
     // TODO: Implement grade validation logic
     // 🕵️‍♀️HINT: Use MIN_GRADE and MAX_GRADE constants
-    
-    return OPERATION_INVALID_INPUT; // Replace with your implementation
+    return (grade >= MIN_GRADE && grade <= MAX_GRADE) ? OPERATION_SUCCESS : OPERATION_INVALID_INPUT;
 }
 
 /* ============================================================================
@@ -46,8 +55,19 @@ int isValidGrade(float grade) {
 char getLetterGrade(float average) {
     // TODO: Implement letter grade conversion
     // 🕵️‍♀️HINT: Use if-else ladder with the grading scale above
-    
-    return 'N'; // Replace with your implementation
+    if (average >= 90.0) {
+        return 'A';
+    } else if (average >= 80.0 && average <= 89.9) {
+        return 'B';
+    } else if (average >= 70.0 && average <= 79.9) {
+        return 'C';
+    } else if (average >= 60.0 && average <= 69.9) {
+        return 'D';
+    } else if (average >= 0.0 && average < 60.0) {
+        return 'F';
+    } else {
+        return 'N';
+    }
 }
 
 /* ============================================================================
@@ -60,6 +80,12 @@ char getLetterGrade(float average) {
 int findStudentByID(int id) {
     // TODO: Implement linear search algorithm
     // 🕵️‍♀️HINT: Use for loop and comparison  
+    for (int i = 0; i < studentCount; i++) {
+        if (studentIDs[i] == id) {
+            return studentIDs[i];
+        }
+    }
+    return OPERATION_NOT_FOUND;
 }
 
 /* ============================================================================
@@ -73,6 +99,36 @@ int findStudentByID(int id) {
 float calculateStudentAverage(int studentIndex) {
     // TODO: Implement average calculation
     // 🕵️‍♀️HINT: Count valid grades (>= 0), sum them, return average
+
+    if (studentIndex < 0 || studentIndex >= studentCount) {
+        return -1.0;
+    }
+
+    float sumOfGrades = 0.0;
+    int gradeCount = 0;
+    
+    if (quizGrades[studentIndex] >= 0.0) {
+        sumOfGrades += quizGrades[studentIndex];
+        gradeCount++;
+    }
+    if (assignmentGrades[studentIndex] >= 0.0) {
+        sumOfGrades += assignmentGrades[studentIndex];
+        gradeCount++;
+    }
+    if (midtermGrades[studentIndex] >= 0.0) {
+        sumOfGrades += midtermGrades[studentIndex];
+        gradeCount++;
+    }
+    if (finalGrades[studentIndex] >= 0.0) {
+        sumOfGrades += finalGrades[studentIndex];
+        gradeCount++;
+    }
+
+    if (gradeCount > 0) {
+        return sumOfGrades / gradeCount;
+    } else {
+        return -1.0;
+    }
 }
 
 /* ============================================================================
@@ -93,6 +149,7 @@ float calculateStudentAverage(int studentIndex) {
 int addStudent(int studentID) {
     // TODO: Implement student addition with full validation 
     // 🕵️‍♀️HINT: Validate ID, check duplicates, check capacity, add to arrays 
+    return -1;
 }
 
 /* ============================================================================
@@ -115,6 +172,7 @@ int enterGrade(int studentID, int assessmentType, float grade) {
     // TODO: Implement grade entry with validation
     // 🕵️‍♀️HINT: Find student, validate inputs, update appropriate grade array
     // 🕵️‍♀️HINT: Use switch statement for assessmentType (1=quiz, 2=assignment, 3=midterm, 4=final)
+    return -1;
 }
 
 /* ============================================================================
@@ -136,6 +194,7 @@ int displayStudentGrades(int studentID) {
     // TODO: Implement student lookup for display
     // 🕵️‍♀️HINT: Find student, get all grades, calculate average and letter grade
     // 🕵️‍♀️HINT: Use findStudentByID() to check if student exists
+    return -1;
 }
 
 /* ====================================================================================

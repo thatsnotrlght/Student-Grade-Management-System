@@ -1,9 +1,3 @@
-# ================================================================================================
-# 💡 Copy and paste the input test cases (Simple, Moderate, Rigorous) in this file.
-# 💡 This file should contain the test cases you wish to run to generate the EXPECTED_OUTPUT.txt.
-# ⚠️ This file must be present in the directory where A2_sample is located.
-# ================================================================================================
-
 # ============================================================================
 # SIMPLE TEST CASES - Basic Functionality Testing
 # Tests fundamental operations without edge cases

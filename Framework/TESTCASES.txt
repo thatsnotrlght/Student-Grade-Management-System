@@ -1,4 +1,83 @@
-# =======================================================================================
-# 💡 Copy and paste the input test cases (Simple, Moderate, Rigorous) in this file,
-# corresponding to the expected output you are testing in the Expected_OUTPUT.txt file.
-# =======================================================================================
+# ============================================================================
+# SIMPLE TEST CASES - Basic Functionality Testing
+# Tests fundamental operations without edge cases
+# Expected to pass for basic implementations
+# 
+# TEST CASE FORMAT DOCUMENTATION:
+# Each line contains a test command followed by parameters separated by spaces
+# Comments explain what each column/parameter represents
+# ============================================================================
+
+# Basic Validation Tests
+# Format: TEST_IS_VALID_GRADE <grade_value>
+# Column 1: TEST_IS_VALID_GRADE (command)
+# Column 2: grade_value (float) - the grade to validate (0.0-100.0 is valid range)
+TEST_IS_VALID_GRADE 85.5    # Valid grade - should return SUCCESS
+TEST_IS_VALID_GRADE 0.0     # Valid boundary - minimum grade
+TEST_IS_VALID_GRADE 100.0   # Valid boundary - maximum grade  
+TEST_IS_VALID_GRADE -5.0    # Invalid - below minimum
+TEST_IS_VALID_GRADE 105.0   # Invalid - above maximum
+
+# Letter Grade Tests  
+# Format: TEST_GET_LETTER_GRADE <average_score>
+# Column 1: TEST_GET_LETTER_GRADE (command)
+# Column 2: average_score (float) - numerical average to convert to letter grade
+#           Expected conversions: 90+ = A, 80-89 = B, 70-79 = C, 60-69 = D, <60 = F, negative = N
+TEST_GET_LETTER_GRADE 95.0    # Should return 'A' (90+)
+TEST_GET_LETTER_GRADE 85.0    # Should return 'B' (80-89)
+TEST_GET_LETTER_GRADE 75.0    # Should return 'C' (70-79)
+TEST_GET_LETTER_GRADE 65.0    # Should return 'D' (60-69)
+TEST_GET_LETTER_GRADE 55.0    # Should return 'F' (<60)
+TEST_GET_LETTER_GRADE -1.0    # Should return 'N' (no grades/negative)
+
+# Student Management Tests
+# Format: TEST_ADD_STUDENT <student_id>
+# Column 1: TEST_ADD_STUDENT (command)
+# Column 2: student_id (int) - unique student identifier (1-9999 valid range)
+TEST_ADD_STUDENT 1001    # Valid ID - should add successfully
+TEST_ADD_STUDENT 1002    # Valid ID - should add successfully
+TEST_ADD_STUDENT 1003    # Valid ID - should add successfully
+
+# Format: TEST_FIND_STUDENT <student_id>
+# Column 1: TEST_FIND_STUDENT (command)  
+# Column 2: student_id (int) - student ID to search for in the system
+TEST_FIND_STUDENT 1001    # Should find student at index 0
+TEST_FIND_STUDENT 1002    # Should find student at index 1
+TEST_FIND_STUDENT 9999    # Should not find (not added yet)
+
+# Basic Grade Entry Tests
+# Format: TEST_ENTER_GRADE <student_id> <assessment_type> <grade_value>
+# Column 1: TEST_ENTER_GRADE (command)
+# Column 2: student_id (int) - ID of student to enter grade for
+# Column 3: assessment_type (int) - type of assessment (1=Quiz, 2=Assignment, 3=Midterm, 4=Final)
+# Column 4: grade_value (float) - the grade to enter (0.0-100.0)
+TEST_ENTER_GRADE 1001 1 85.5    # Enter quiz grade 85.5 for student 1001
+TEST_ENTER_GRADE 1001 2 92.0    # Enter assignment grade 92.0 for student 1001
+TEST_ENTER_GRADE 1002 1 78.0    # Enter quiz grade 78.0 for student 1002
+TEST_ENTER_GRADE 1002 3 88.0    # Enter midterm grade 88.0 for student 1002
+
+# Average Calculation Tests
+# Format: TEST_CALCULATE_AVERAGE <student_id>
+# Column 1: TEST_CALCULATE_AVERAGE (command)
+# Column 2: student_id (int) - ID of student to calculate average for
+TEST_CALCULATE_AVERAGE 1001    # Should calculate average from quiz (85.5) + assignment (92.0) = 88.75
+TEST_CALCULATE_AVERAGE 1002    # Should calculate average from quiz (78.0) + midterm (88.0) = 83.0
+TEST_CALCULATE_AVERAGE 1003    # Should return NO_GRADES (no grades entered yet)
+
+# Display Tests
+# Format: TEST_DISPLAY_STUDENT <student_id>
+# Column 1: TEST_DISPLAY_STUDENT (command)
+# Column 2: student_id (int) - ID of student to display all information for
+#           Output format: "DISPLAY_STUDENT: <id> <quiz>,<assignment>,<midterm>,<final> <average> <letter_grade>"
+#           "N/A" is shown for grades not yet entered
+TEST_DISPLAY_STUDENT 1001    # Should show: 1001 85.5,92.0,N/A,N/A 88.8 B
+TEST_DISPLAY_STUDENT 1002    # Should show: 1002 78.0,N/A,88.0,N/A 83.0 B  
+TEST_DISPLAY_STUDENT 1003    # Should show: 1003 N/A,N/A,N/A,N/A N/A N
+
+# Statistics Test
+# Format: TEST_CALCULATE_STATS
+# Column 1: TEST_CALCULATE_STATS (command) - no additional parameters
+#           Calculates and displays comprehensive class statistics including:
+#           - Average, count, min, max for each assessment type (quiz, assignment, midterm, final)
+#           - Grade distribution (count of A, B, C, D, F grades)
+TEST_CALCULATE_STATS    # Calculate statistics for all students and grades in the system
