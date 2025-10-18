@@ -1,83 +1,190 @@
 # ============================================================================
-# SIMPLE TEST CASES - Basic Functionality Testing
-# Tests fundamental operations without edge cases
-# Expected to pass for basic implementations
-# 
-# TEST CASE FORMAT DOCUMENTATION:
-# Each line contains a test command followed by parameters separated by spaces
-# Comments explain what each column/parameter represents
+# RIGOROUS TEST CASES - Comprehensive Testing with All Edge Cases
+# Tests robustness, boundary conditions, and stress scenarios
 # ============================================================================
 
-# Basic Validation Tests
-# Format: TEST_IS_VALID_GRADE <grade_value>
-# Column 1: TEST_IS_VALID_GRADE (command)
-# Column 2: grade_value (float) - the grade to validate (0.0-100.0 is valid range)
-TEST_IS_VALID_GRADE 85.5    # Valid grade - should return SUCCESS
-TEST_IS_VALID_GRADE 0.0     # Valid boundary - minimum grade
-TEST_IS_VALID_GRADE 100.0   # Valid boundary - maximum grade  
-TEST_IS_VALID_GRADE -5.0    # Invalid - below minimum
-TEST_IS_VALID_GRADE 105.0   # Invalid - above maximum
+# Comprehensive Validation Tests
+TEST_IS_VALID_GRADE 0.0
+TEST_IS_VALID_GRADE 0.01
+TEST_IS_VALID_GRADE 50.0
+TEST_IS_VALID_GRADE 99.99
+TEST_IS_VALID_GRADE 100.0
+TEST_IS_VALID_GRADE -0.01
+TEST_IS_VALID_GRADE 100.01
+TEST_IS_VALID_GRADE -999.0
+TEST_IS_VALID_GRADE 999.0
 
-# Letter Grade Tests  
-# Format: TEST_GET_LETTER_GRADE <average_score>
-# Column 1: TEST_GET_LETTER_GRADE (command)
-# Column 2: average_score (float) - numerical average to convert to letter grade
-#           Expected conversions: 90+ = A, 80-89 = B, 70-79 = C, 60-69 = D, <60 = F, negative = N
-TEST_GET_LETTER_GRADE 95.0    # Should return 'A' (90+)
-TEST_GET_LETTER_GRADE 85.0    # Should return 'B' (80-89)
-TEST_GET_LETTER_GRADE 75.0    # Should return 'C' (70-79)
-TEST_GET_LETTER_GRADE 65.0    # Should return 'D' (60-69)
-TEST_GET_LETTER_GRADE 55.0    # Should return 'F' (<60)
-TEST_GET_LETTER_GRADE -1.0    # Should return 'N' (no grades/negative)
+# Comprehensive Letter Grade Boundary Testing
+TEST_GET_LETTER_GRADE 100.0
+TEST_GET_LETTER_GRADE 95.5
+TEST_GET_LETTER_GRADE 90.0
+TEST_GET_LETTER_GRADE 89.99
+TEST_GET_LETTER_GRADE 85.0
+TEST_GET_LETTER_GRADE 80.0
+TEST_GET_LETTER_GRADE 79.99
+TEST_GET_LETTER_GRADE 75.0
+TEST_GET_LETTER_GRADE 70.0
+TEST_GET_LETTER_GRADE 69.99
+TEST_GET_LETTER_GRADE 65.0
+TEST_GET_LETTER_GRADE 60.0
+TEST_GET_LETTER_GRADE 59.99
+TEST_GET_LETTER_GRADE 30.0
+TEST_GET_LETTER_GRADE 0.0
+TEST_GET_LETTER_GRADE -1.0
+TEST_GET_LETTER_GRADE -100.0
 
-# Student Management Tests
-# Format: TEST_ADD_STUDENT <student_id>
-# Column 1: TEST_ADD_STUDENT (command)
-# Column 2: student_id (int) - unique student identifier (1-9999 valid range)
-TEST_ADD_STUDENT 1001    # Valid ID - should add successfully
-TEST_ADD_STUDENT 1002    # Valid ID - should add successfully
-TEST_ADD_STUDENT 1003    # Valid ID - should add successfully
+# Boundary Student ID Tests
+TEST_ADD_STUDENT 1
+TEST_ADD_STUDENT 9999
+TEST_ADD_STUDENT 5000
+TEST_ADD_STUDENT 0
+TEST_ADD_STUDENT -1
+TEST_ADD_STUDENT 10000
+TEST_ADD_STUDENT -500
 
-# Format: TEST_FIND_STUDENT <student_id>
-# Column 1: TEST_FIND_STUDENT (command)  
-# Column 2: student_id (int) - student ID to search for in the system
-TEST_FIND_STUDENT 1001    # Should find student at index 0
-TEST_FIND_STUDENT 1002    # Should find student at index 1
-TEST_FIND_STUDENT 9999    # Should not find (not added yet)
+# Valid Student Addition Sequence
+TEST_ADD_STUDENT 1001
+TEST_ADD_STUDENT 1002
+TEST_ADD_STUDENT 1003
+TEST_ADD_STUDENT 1004
+TEST_ADD_STUDENT 1005
+TEST_ADD_STUDENT 1006
+TEST_ADD_STUDENT 1007
+TEST_ADD_STUDENT 1008
+TEST_ADD_STUDENT 1009
+TEST_ADD_STUDENT 1010
 
-# Basic Grade Entry Tests
-# Format: TEST_ENTER_GRADE <student_id> <assessment_type> <grade_value>
-# Column 1: TEST_ENTER_GRADE (command)
-# Column 2: student_id (int) - ID of student to enter grade for
-# Column 3: assessment_type (int) - type of assessment (1=Quiz, 2=Assignment, 3=Midterm, 4=Final)
-# Column 4: grade_value (float) - the grade to enter (0.0-100.0)
-TEST_ENTER_GRADE 1001 1 85.5    # Enter quiz grade 85.5 for student 1001
-TEST_ENTER_GRADE 1001 2 92.0    # Enter assignment grade 92.0 for student 1001
-TEST_ENTER_GRADE 1002 1 78.0    # Enter quiz grade 78.0 for student 1002
-TEST_ENTER_GRADE 1002 3 88.0    # Enter midterm grade 88.0 for student 1002
+# Duplicate Testing
+TEST_ADD_STUDENT 1001
+TEST_ADD_STUDENT 1005
+TEST_ADD_STUDENT 9999
+TEST_ADD_STUDENT 1
+TEST_ADD_STUDENT 1003
 
-# Average Calculation Tests
-# Format: TEST_CALCULATE_AVERAGE <student_id>
-# Column 1: TEST_CALCULATE_AVERAGE (command)
-# Column 2: student_id (int) - ID of student to calculate average for
-TEST_CALCULATE_AVERAGE 1001    # Should calculate average from quiz (85.5) + assignment (92.0) = 88.75
-TEST_CALCULATE_AVERAGE 1002    # Should calculate average from quiz (78.0) + midterm (88.0) = 83.0
-TEST_CALCULATE_AVERAGE 1003    # Should return NO_GRADES (no grades entered yet)
+# Comprehensive Search Tests
+TEST_FIND_STUDENT 1001
+TEST_FIND_STUDENT 1
+TEST_FIND_STUDENT 9999
+TEST_FIND_STUDENT 1005
+TEST_FIND_STUDENT 1010
+TEST_FIND_STUDENT 0
+TEST_FIND_STUDENT 2000
+TEST_FIND_STUDENT -1
+TEST_FIND_STUDENT 10000
 
-# Display Tests
-# Format: TEST_DISPLAY_STUDENT <student_id>
-# Column 1: TEST_DISPLAY_STUDENT (command)
-# Column 2: student_id (int) - ID of student to display all information for
-#           Output format: "DISPLAY_STUDENT: <id> <quiz>,<assignment>,<midterm>,<final> <average> <letter_grade>"
-#           "N/A" is shown for grades not yet entered
-TEST_DISPLAY_STUDENT 1001    # Should show: 1001 85.5,92.0,N/A,N/A 88.8 B
-TEST_DISPLAY_STUDENT 1002    # Should show: 1002 78.0,N/A,88.0,N/A 83.0 B  
-TEST_DISPLAY_STUDENT 1003    # Should show: 1003 N/A,N/A,N/A,N/A N/A N
+# Comprehensive Grade Entry Testing
+# Valid entries across all assessment types
+TEST_ENTER_GRADE 1001 1 95.0
+TEST_ENTER_GRADE 1001 2 88.5
+TEST_ENTER_GRADE 1001 3 92.0
+TEST_ENTER_GRADE 1001 4 90.5
+TEST_ENTER_GRADE 1002 1 78.0
+TEST_ENTER_GRADE 1002 2 85.5
+TEST_ENTER_GRADE 1002 3 82.0
+TEST_ENTER_GRADE 1003 1 65.0
+TEST_ENTER_GRADE 1003 2 70.5
+TEST_ENTER_GRADE 1004 1 58.0
+TEST_ENTER_GRADE 1005 1 100.0
+TEST_ENTER_GRADE 1005 2 95.5
+TEST_ENTER_GRADE 1005 3 98.0
+TEST_ENTER_GRADE 1005 4 97.5
 
-# Statistics Test
-# Format: TEST_CALCULATE_STATS
-# Column 1: TEST_CALCULATE_STATS (command) - no additional parameters
-#           Calculates and displays comprehensive class statistics including:
-#           - Average, count, min, max for each assessment type (quiz, assignment, midterm, final)
-#           - Grade distribution (count of A, B, C, D, F grades)
-TEST_CALCULATE_STATS    # Calculate statistics for all students and grades in the system
+# Boundary grade values
+TEST_ENTER_GRADE 1006 1 0.0
+TEST_ENTER_GRADE 1006 2 100.0
+TEST_ENTER_GRADE 1007 1 0.01
+TEST_ENTER_GRADE 1007 2 99.99
+
+# Error condition testing for grade entry
+TEST_ENTER_GRADE 9999 1 85.0
+TEST_ENTER_GRADE 0 1 85.0
+TEST_ENTER_GRADE -1 1 85.0
+TEST_ENTER_GRADE 1001 0 85.0
+TEST_ENTER_GRADE 1001 5 85.0
+TEST_ENTER_GRADE 1001 -1 85.0
+TEST_ENTER_GRADE 1001 1 -0.1
+TEST_ENTER_GRADE 1001 1 100.1
+TEST_ENTER_GRADE 1001 1 -50.0
+TEST_ENTER_GRADE 1001 1 150.0
+
+# Partial grade scenarios for average testing
+TEST_ENTER_GRADE 1008 1 89.0
+TEST_ENTER_GRADE 1008 3 91.0
+TEST_ENTER_GRADE 1009 2 77.5
+TEST_ENTER_GRADE 1009 4 83.5
+TEST_ENTER_GRADE 1010 3 95.5
+
+# Average calculation tests for all scenarios
+TEST_CALCULATE_AVERAGE 1001
+TEST_CALCULATE_AVERAGE 1002
+TEST_CALCULATE_AVERAGE 1003
+TEST_CALCULATE_AVERAGE 1004
+TEST_CALCULATE_AVERAGE 1005
+TEST_CALCULATE_AVERAGE 1006
+TEST_CALCULATE_AVERAGE 1007
+TEST_CALCULATE_AVERAGE 1008
+TEST_CALCULATE_AVERAGE 1009
+TEST_CALCULATE_AVERAGE 1010
+TEST_CALCULATE_AVERAGE 1
+TEST_CALCULATE_AVERAGE 9999
+TEST_CALCULATE_AVERAGE 0
+TEST_CALCULATE_AVERAGE 2000
+
+# Display tests for all scenarios
+TEST_DISPLAY_STUDENT 1001
+TEST_DISPLAY_STUDENT 1002
+TEST_DISPLAY_STUDENT 1003
+TEST_DISPLAY_STUDENT 1004
+TEST_DISPLAY_STUDENT 1005
+TEST_DISPLAY_STUDENT 1006
+TEST_DISPLAY_STUDENT 1007
+TEST_DISPLAY_STUDENT 1008
+TEST_DISPLAY_STUDENT 1009
+TEST_DISPLAY_STUDENT 1010
+TEST_DISPLAY_STUDENT 1
+TEST_DISPLAY_STUDENT 9999
+TEST_DISPLAY_STUDENT 0
+TEST_DISPLAY_STUDENT 2000
+
+# Statistics calculation test
+TEST_CALCULATE_STATS
+
+# Add more students to test grade distribution
+TEST_ADD_STUDENT 2001
+TEST_ADD_STUDENT 2002
+TEST_ADD_STUDENT 2003
+TEST_ADD_STUDENT 2004
+TEST_ADD_STUDENT 2005
+
+# Create full grade distribution spectrum
+TEST_ENTER_GRADE 2001 1 95.0
+TEST_ENTER_GRADE 2001 2 93.0
+TEST_ENTER_GRADE 2001 3 97.0
+TEST_ENTER_GRADE 2001 4 96.0
+TEST_ENTER_GRADE 2002 1 85.0
+TEST_ENTER_GRADE 2002 2 87.0
+TEST_ENTER_GRADE 2002 3 83.0
+TEST_ENTER_GRADE 2002 4 86.0
+TEST_ENTER_GRADE 2003 1 75.0
+TEST_ENTER_GRADE 2003 2 78.0
+TEST_ENTER_GRADE 2003 3 72.0
+TEST_ENTER_GRADE 2003 4 76.0
+TEST_ENTER_GRADE 2004 1 65.0
+TEST_ENTER_GRADE 2004 2 68.0
+TEST_ENTER_GRADE 2004 3 62.0
+TEST_ENTER_GRADE 2004 4 67.0
+TEST_ENTER_GRADE 2005 1 45.0
+TEST_ENTER_GRADE 2005 2 52.0
+TEST_ENTER_GRADE 2005 3 48.0
+TEST_ENTER_GRADE 2005 4 50.0
+
+# Final comprehensive statistics test
+TEST_CALCULATE_STATS
+
+# Additional boundary testing for specific functions
+TEST_FIND_STUDENT 2001
+TEST_FIND_STUDENT 2005
+TEST_CALCULATE_AVERAGE 2001
+TEST_CALCULATE_AVERAGE 2005
+TEST_DISPLAY_STUDENT 2001
+TEST_DISPLAY_STUDENT 2005

@@ -16,12 +16,20 @@
 #define MIN_GRADE 0.0
 #define MAX_GRADE 100.0
 #define MAX_STUDENTS 50  
+#define ASSESSMENT_QUIZ 1    
+#define ASSESSMENT_ASSIGNMENT 2   
+#define ASSESSMENT_MIDTERM 3 
+#define ASSESSMENT_FINAL 4
 extern int studentCount;
 extern int studentIDs[MAX_STUDENTS];
+extern int gradeDistributionCounts[5];  
+extern float assessmentStats[16]; 
 extern float quizGrades[MAX_STUDENTS];          
 extern float assignmentGrades[MAX_STUDENTS];    
 extern float midtermGrades[MAX_STUDENTS];         
 extern float finalGrades[MAX_STUDENTS];
+
+
 
 /* ============================================================================
  *TODO 1: Validates if a grade is within acceptable range (5 points)
@@ -57,13 +65,13 @@ char getLetterGrade(float average) {
     // 🕵️‍♀️HINT: Use if-else ladder with the grading scale above
     if (average >= 90.0) {
         return 'A';
-    } else if (average >= 80.0 && average <= 89.9) {
+    } else if (average >= 80.0) {
         return 'B';
-    } else if (average >= 70.0 && average <= 79.9) {
+    } else if (average >= 70.0) {
         return 'C';
-    } else if (average >= 60.0 && average <= 69.9) {
+    } else if (average >= 60.0) {
         return 'D';
-    } else if (average >= 0.0 && average < 60.0) {
+    } else if (average >= 0.0) {
         return 'F';
     } else {
         return 'N';
@@ -82,7 +90,7 @@ int findStudentByID(int id) {
     // 🕵️‍♀️HINT: Use for loop and comparison  
     for (int i = 0; i < studentCount; i++) {
         if (studentIDs[i] == id) {
-            return studentIDs[i];
+            return i;
         }
     }
     return OPERATION_NOT_FOUND;
@@ -149,7 +157,32 @@ float calculateStudentAverage(int studentIndex) {
 int addStudent(int studentID) {
     // TODO: Implement student addition with full validation 
     // 🕵️‍♀️HINT: Validate ID, check duplicates, check capacity, add to arrays 
-    return -1;
+    if (studentCount >= MAX_STUDENTS) {
+        return OPERATION_CAPACITY_ERROR;
+    }
+
+    if (!(studentID > 0 && studentID <= MAX_STUDENT_ID)) {
+        return OPERATION_INVALID_INPUT;
+    }
+
+    int funcIndex = findStudentByID(studentID);
+    if (funcIndex != OPERATION_NOT_FOUND) {
+        return OPERATION_DUPLICATE_ERROR;
+    }
+
+    int studentIdx = studentCount;
+
+    studentIDs[studentIdx] = studentID;
+
+    quizGrades[studentIdx] = GRADE_NOT_ENTERED;          
+    assignmentGrades[studentIdx] = GRADE_NOT_ENTERED;     
+    midtermGrades[studentIdx] = GRADE_NOT_ENTERED;          
+    finalGrades[studentIdx] = GRADE_NOT_ENTERED; 
+    
+    studentCount++;
+
+    return OPERATION_SUCCESS;
+    
 }
 
 /* ============================================================================
@@ -172,7 +205,36 @@ int enterGrade(int studentID, int assessmentType, float grade) {
     // TODO: Implement grade entry with validation
     // 🕵️‍♀️HINT: Find student, validate inputs, update appropriate grade array
     // 🕵️‍♀️HINT: Use switch statement for assessmentType (1=quiz, 2=assignment, 3=midterm, 4=final)
-    return -1;
+
+    int studentIdx = findStudentByID(studentID);
+    if (studentIdx == OPERATION_NOT_FOUND) {
+        return OPERATION_NOT_FOUND;
+    }
+
+    if (isValidGrade(grade) != OPERATION_SUCCESS) {
+        return OPERATION_INVALID_INPUT;
+    }
+
+    if (!(assessmentType >= ASSESSMENT_QUIZ && assessmentType <= ASSESSMENT_FINAL)) {
+        return OPERATION_INVALID_INPUT;
+    }
+
+    switch (assessmentType){
+        case ASSESSMENT_QUIZ:
+            quizGrades[studentIdx] = grade;
+            break;
+        case ASSESSMENT_ASSIGNMENT:
+            assignmentGrades[studentIdx] = grade;
+            break;
+        case ASSESSMENT_MIDTERM:
+            midtermGrades[studentIdx] = grade;
+            break;
+        case ASSESSMENT_FINAL:
+            finalGrades[studentIdx] = grade;
+            break;
+    }
+
+    return OPERATION_SUCCESS;
 }
 
 /* ============================================================================
@@ -194,7 +256,20 @@ int displayStudentGrades(int studentID) {
     // TODO: Implement student lookup for display
     // 🕵️‍♀️HINT: Find student, get all grades, calculate average and letter grade
     // 🕵️‍♀️HINT: Use findStudentByID() to check if student exists
-    return -1;
+
+    int studentIdx = findStudentByID(studentID);
+
+    if (studentIdx == OPERATION_NOT_FOUND) {
+        return OPERATION_NOT_FOUND;
+    }
+
+    float studentAvg = calculateStudentAverage(studentIdx);
+    char letterGrade = getLetterGrade(studentAvg);
+
+    (void)letterGrade;
+    (void)studentAvg;
+
+    return OPERATION_SUCCESS;
 }
 
 /* ====================================================================================
@@ -249,11 +324,75 @@ int calculateStatistics(void) {
     
     // TODO: STUDENTS MUST IMPLEMENT THE ASSESSMENT STATISTICS CALCULATIONS    
     // Step 3: Calculate statistics for each assessment type
+    float* gradeArrays[] = {
+        quizGrades,
+        assignmentGrades,
+        midtermGrades,
+        finalGrades
+    };
 
+    for (int assessment = 0; assessment < 4; assessment++) {
+        float sum = 0.0;
+        int count = 0;
+        float min = MAX_GRADE + 1.0;
+        float max = MIN_GRADE - 1.0;
+
+        int statsOffset = assessment * 4;
+
+        for (int i = 0; i < studentCount; i++) {
+            float grade = gradeArrays[assessment][i];
+
+            if (grade != GRADE_NOT_ENTERED) {
+                sum += grade;
+                count++;
+
+                if (grade < min) {
+                    min = grade;
+                }
+                if (grade > max) {
+                    max = grade;
+                }
+            }
+        }
+
+        if (count > 0) {
+            assessmentStats[statsOffset + 0] = sum / count;
+            assessmentStats[statsOffset + 1] = (float)count;
+            assessmentStats[statsOffset + 2] = min;
+            assessmentStats[statsOffset + 3] = max;
+        }
+
+    }
 
     // TODO: STUDENTS MUST IMPLEMENT GRADE DISTRIBUTION CALCULATION:
     // Step 4: Calculate grade distribution    
-    
+    for (int i = 0; i < studentCount; i++) {
+        float studentAvg = calculateStudentAverage(i);
+
+        if (studentAvg == GRADE_NOT_ENTERED) {
+            continue;
+        }
+
+        char letterGrade = getLetterGrade(studentAvg);
+
+        switch(letterGrade) {
+            case 'A':
+                gradeDistributionCounts[0]++; 
+                break;
+            case 'B':
+                gradeDistributionCounts[1]++; 
+                break;
+            case 'C':
+                gradeDistributionCounts[2]++; 
+                break;
+            case 'D':
+                gradeDistributionCounts[3]++; 
+                break;
+            case 'F':
+                gradeDistributionCounts[4]++; 
+                break;
+        }
+    }
     return OPERATION_SUCCESS; // Only return this after implementing all calculations above
 }
 
